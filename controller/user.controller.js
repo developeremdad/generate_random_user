@@ -1,3 +1,20 @@
+const dbConnect = require("../utils/dbConnect");
+
+const client = dbConnect();
+
+client.connect(err => {
+    // const database = client.db("random_user");
+    // const collectionUsers = database.collection('users');
+    // // perform actions on the collection object
+    // try {
+    //     // const collection = client.db("chatapp").collection("chat");
+    //     collectionUsers.insertOne( { item: "User", value: 15 } );
+    // } catch {
+    //     throw(err)
+    // }
+    console.log('Database connected')
+  });
+
 // get random values 
 function getRandom(input) {
     return input[Math.floor((Math.random() * input.length))];
@@ -77,9 +94,7 @@ const randomPhotoUrl = () =>{
     }
 }
 
-
-
-
+// ========================== get random user ===========================
 module.exports.getRandomUser = (req, res) => {
     res.status(200).send({
         success: true,
@@ -93,4 +108,32 @@ module.exports.getRandomUser = (req, res) => {
             "photoUrl": randomPhotoUrl()
         }
     })
+}
+
+// ========================== save/insert a new user ===========================
+module.exports.saveUser = (req, res) =>{
+    const newUser = req.body;
+    let err = '';
+    Object.keys(newUser).forEach(key => {
+        if (!newUser[key]) {
+            // res.send(`please fill-up this field. ${key}`);
+            err = key;
+        }
+    });
+    if (err) {
+        res.status(200).send({
+            success: false,
+            messages: "fail! Found error, please fullfil this field",
+            field: `${err}`
+        })
+    }
+    else{
+        // const result = collectionUsers.insertOne(newUser);
+        res.status(200).send({
+            success: true,
+            // id: result,
+            messages: "Success",
+            data: "Save new user successfully."
+        })
+    }
 }

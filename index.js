@@ -2,12 +2,14 @@ const express = require("express");
 const dbConnect = require("./utils/dbConnect");
 const app = express()
 const userRoute = require("./routes/users.route.js");
+app.use(express.json());
 
 const port = process.env.PORT || 5000;
 
 // database connection
-const database = dbConnect();
-const collectionUsers = database.collection('users');
+// const client = dbConnect();
+// const database = client.db("random_user");
+// const collectionUsers = database.collection('users');
 
 
 

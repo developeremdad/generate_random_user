@@ -9,13 +9,11 @@ const userController = require('../controller/user.controller');
 router
 .route('/random')
     .get(userController.getRandomUser)
-    router.post('/save',(req, res) =>{
-        console.log(req.body, req.query);
-        res.json(req.body);
-    })
 
 // add new user post('/users', async (req, res)
-
+router
+.route('/save')
+    .post(userController.saveUser)
 
 
 module.exports = router;
