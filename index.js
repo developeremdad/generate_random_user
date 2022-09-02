@@ -1,24 +1,20 @@
 const express = require("express");
 const dbConnect = require("./utils/dbConnect");
 const app = express()
+const userRoute = require("./routes/users.route.js");
 
 const port = process.env.PORT || 5000;
-// dbConnect();
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.eogpx.mongodb.net/?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+// database connection
+const database = dbConnect();
+const collectionUsers = database.collection('users');
 
-client.connect(err => {
-    const database = client.db("random_user");
-    const collectionUsers = database.collection('users');
-    console.log("Database connected");
-    // perform actions on the collection object
-    client.close();
-});
 
+
+app.use("/users", userRoute);
 
 app.all("*", (req, res) => {
+    console.log('Unmatched route: ', req.url);
     res.send("No route founded. please try another route.")
 });
 
