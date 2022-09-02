@@ -11,8 +11,15 @@ const collectionUsers = database.collection('users');
 
 
 
-app.use("/users", userRoute);
+app.use("/user", userRoute);
 
+app.get('/', (req, res) =>{
+    res.status(200).send({
+        success: true,
+        messages: "Success",
+        data: `Server is running on port: ${port}`
+      });
+})
 app.all("*", (req, res) => {
     console.log('Unmatched route: ', req.url);
     res.send("No route founded. please try another route.")
