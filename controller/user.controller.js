@@ -1,3 +1,4 @@
+const ObjectId = require('mongodb').ObjectId;
 const dbConnect = require("../utils/dbConnect");
 
 // mongoDB connection 
@@ -143,4 +144,48 @@ module.exports.getAllUser = async(req, res) =>{
         data: limitedUsers,
     })
 }
+
+// ========================== update a user using id ===========================
+module.exports.updateUser = async(req, res) =>{
+    const id = req.params.updateId;
+    if (id.length === 24) {
+        const filter = { _id: ObjectId(id) };
+        let oldData = await collectionUsers.findOne(filter);
+        const newData = req.body;
+        if (oldData) {
+            console.log(newData);
+              const updateData = {
+                $set: oldData[id] = {
+                    ...oldData[id],
+                    ...newData,
+                  },
+            };
+              const result = await collectionUsers.updateOne(filter, updateData, { upsert: true });
+              if (result.modifiedCount === 1) {
+                res.status(200).send({
+                    success: true,
+                    messages: "Successfully updated user.",
+                    response: result,
+                })
+                
+              }
+        }
+        else{
+            res.status(200).send({
+                success: false,
+                messages: "Can't found user. Please enter valid user ID with length must be 24.",
+            })
+        }
+    }
+    else{
+        res.status(200).send({
+            success: false,
+            messages: "Fail !. Please enter valid user ID with length must be 24.",
+        })
+    }
+}
+
+
+// ========================== get all users with limit ===========================
+// ========================== get all users with limit ===========================
 

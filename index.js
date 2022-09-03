@@ -1,7 +1,6 @@
 const express = require("express");
 require('dotenv').config()
 const cors = require('cors');
-const dbConnect = require("./utils/dbConnect");
 const app = express()
 const userRoute = require("./routes/users.route.js");
 
@@ -12,10 +11,6 @@ const port = process.env.PORT || 5000;
 
 // database connection
 // const client = dbConnect();
-// const database = client.db("random_user");
-// const collectionUsers = database.collection('users');
-
-
 
 app.use("/user", userRoute);
 

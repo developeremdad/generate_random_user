@@ -6,13 +6,13 @@ const userController = require('../controller/user.controller');
 // ========================  control routes ==============================
 
 //generate random user
-router
-.route('/random').get(userController.getRandomUser)
+router.route('/random').get(userController.getRandomUser)
 
 // add new user post('/users', async (req, res)
-router
-.route('/save').post(userController.saveUser)
+router.route('/save').post(userController.saveUser)
 
 router.route('/all').get(userController.getAllUser)
+
+router.route('/update/:updateId').patch(userController.updateUser)
 
 module.exports = router;
