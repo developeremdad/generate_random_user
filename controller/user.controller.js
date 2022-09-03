@@ -104,6 +104,9 @@ module.exports.getRandomUser = (req, res) => {
 }
 
 // ================================ Mongodb operation ==================================
+module.exports.defaultRoute = async(req, res) =>{
+    res.send(`server is running on route ${req.url}`);
+}
 // ========================== save/insert a new user ===========================
 module.exports.saveUser = async (req, res) => {
     const newUser = req.body;

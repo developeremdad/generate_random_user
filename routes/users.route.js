@@ -6,6 +6,7 @@ const userController = require('../controller/user.controller');
 // ========================  control routes ==============================
 
 //generate random user
+router.route('/').get(userController.defaultRoute)
 router.route('/random').get(userController.getRandomUser)
 
 // add new user post('/users', async (req, res)
