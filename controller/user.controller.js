@@ -1,5 +1,11 @@
 const dbConnect = require("../utils/dbConnect");
 
+// mongoDB connection 
+const client = dbConnect();
+const database = client.db("random_user");
+const collectionUsers = database.collection('users');
+
+
 
 // get random values 
 function getRandom(input) {
@@ -97,10 +103,7 @@ module.exports.getRandomUser = (req, res) => {
 }
 
 // ================================ Mongodb operation ==================================
-const client = dbConnect();
-const database = client.db("random_user");
-const collectionUsers = database.collection('users');
-
+// ========================== save/insert a new user ===========================
 module.exports.saveUser = async(req, res) =>{
     const newUser = req.body;
     let err = '';
@@ -121,11 +124,23 @@ module.exports.saveUser = async(req, res) =>{
         const result = await collectionUsers.insertOne(newUser);
         res.status(200).send({
             success: true,
-            messages: "Success",
-            data: "Save new user successfully.",
+            messages: "Save new user successfully.",
             response: result
         })
     }
 }
 
-// ========================== save/insert a new user ===========================
+// ========================== get all users with limit ===========================
+module.exports.getAllUser = async(req, res) =>{
+    const {limit} = await req.query; 
+    console.log(limit);
+    const users = await collectionUsers.find({}).toArray();
+    const limitedUsers = users.slice(0, limit? limit : users.length);
+    res.status(200).send({
+        success: true,
+        messages: "Successfully got the users.",
+        length: limitedUsers.length,
+        data: limitedUsers,
+    })
+}
+
