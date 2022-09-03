@@ -153,7 +153,7 @@ module.exports.updateUser = async(req, res) =>{
         let oldData = await collectionUsers.findOne(filter);
         const newData = req.body;
         if (oldData) {
-            console.log(newData);
+            // console.log(newData);
               const updateData = {
                 $set: oldData[id] = {
                     ...oldData[id],
@@ -217,4 +217,51 @@ module.exports.deleteUser = async(req, res) =>{
 
 
 // ========================== get all users with limit ===========================
+module.exports.bulkUpdate = async(req, res) =>{
+    const getData = req.body;
+    const keys = Object.keys(getData);
+    const ids = keys[0]
+    res.send(ids);
+    // if (ids) {
+    //     for(i=0; i<ids.length; i++){
+
+    //     }
+    // }
+
+    // const id = req.params.updateId;
+    // if (id.length === 24) {
+    //     const filter = { _id: ObjectId(id) };
+    //     let oldData = await collectionUsers.findOne(filter);
+    //     const newData = req.body;
+    //     if (oldData) {
+    //         // console.log(newData);
+    //           const updateData = {
+    //             $set: oldData[id] = {
+    //                 ...oldData[id],
+    //                 ...newData,
+    //               },
+    //         };
+    //           const result = await collectionUsers.updateOne(filter, updateData, { upsert: true });
+    //           if (result.modifiedCount === 1) {
+    //             res.status(200).send({
+    //                 success: true,
+    //                 messages: "Successfully updated user.",
+    //                 response: result,
+    //             })
+    //           }
+    //     }
+    //     else{
+    //         res.status(200).send({
+    //             success: false,
+    //             messages: "Can't found user. Please enter valid user ID with length must be 24.",
+    //         })
+    //     }
+    // }
+    // else{
+    //     res.status(200).send({
+    //         success: false,
+    //         messages: "Fail !. Please enter valid user ID with length must be 24.",
+    //     })
+    // }
+}
 
