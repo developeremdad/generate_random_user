@@ -167,7 +167,6 @@ module.exports.updateUser = async(req, res) =>{
                     messages: "Successfully updated user.",
                     response: result,
                 })
-                
               }
         }
         else{
@@ -185,7 +184,37 @@ module.exports.updateUser = async(req, res) =>{
     }
 }
 
-
 // ========================== get all users with limit ===========================
+module.exports.deleteUser = async(req, res) =>{
+        const id = req.params.id;
+        if (id.length === 24) {
+            const query = { _id: ObjectId(id) };
+            const result = await collectionUsers.deleteOne(query);
+            if (result.deletedCount === 1) {
+                res.status(200).send({
+                    success: true,
+                    messages: "Successfully deleted a user.",
+                    response: result,
+                    userId: id,
+                })
+            }
+            else{
+                res.status(200).send({
+                    success: false,
+                    messages: "Can't found user. Please enter valid user ID with length must be 24.",
+                })
+            }
+            
+        }
+        else{
+            res.status(200).send({
+                success: false,
+                messages: "Fail !. Please enter valid user ID with length must be 24.",
+            })
+        }
+
+}
+
+
 // ========================== get all users with limit ===========================
 
