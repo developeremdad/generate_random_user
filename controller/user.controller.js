@@ -1,19 +1,5 @@
 const dbConnect = require("../utils/dbConnect");
 
-const client = dbConnect();
-
-client.connect(err => {
-    // const database = client.db("random_user");
-    // const collectionUsers = database.collection('users');
-    // // perform actions on the collection object
-    // try {
-    //     // const collection = client.db("chatapp").collection("chat");
-    //     collectionUsers.insertOne( { item: "User", value: 15 } );
-    // } catch {
-    //     throw(err)
-    // }
-    console.log('Database connected')
-  });
 
 // get random values 
 function getRandom(input) {
@@ -110,8 +96,12 @@ module.exports.getRandomUser = (req, res) => {
     })
 }
 
-// ========================== save/insert a new user ===========================
-module.exports.saveUser = (req, res) =>{
+// ================================ Mongodb operation ==================================
+const client = dbConnect();
+const database = client.db("random_user");
+const collectionUsers = database.collection('users');
+
+module.exports.saveUser = async(req, res) =>{
     const newUser = req.body;
     let err = '';
     Object.keys(newUser).forEach(key => {
@@ -128,12 +118,14 @@ module.exports.saveUser = (req, res) =>{
         })
     }
     else{
-        // const result = collectionUsers.insertOne(newUser);
+        const result = await collectionUsers.insertOne(newUser);
         res.status(200).send({
             success: true,
-            // id: result,
             messages: "Success",
-            data: "Save new user successfully."
+            data: "Save new user successfully.",
+            response: result
         })
     }
 }
+
+// ========================== save/insert a new user ===========================
